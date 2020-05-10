@@ -1,0 +1,167 @@
+﻿@using HaiSanShop.Data.Entites
+@model IEnumerable<BangGia>
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout_Admin.cshtml";
+}
+
+<h2 class="text-center text-primary">BẢNG GIÁ BÁN</h2>
+
+
+
+<br />
+<div class="divadd">
+
+    <a href="#" class="btn btn-success mb-2 btnadd1">Thêm Mới</a>
+    <div class="div_form_add" style="display:none">
+        @using (Html.BeginForm("", "", FormMethod.Post, new { @id = "form0" }))
+        {
+            @Html.TextBox("TenSanPham", "", new { @placeholder = "Nhập Tên Sản Phẩm", @class = "form-control col-md-4 m-2" })
+            @Html.TextBox("Gia", "", new { @placeholder = "Nhập Giá Niêm Yết", @class = "form-control col-md-4 m-2" })
+            <input class="btn btn-success m-2 mb-2 btnadd" type="submit" value="Thêm" />
+        }
+    </div>
+</div>
+
+
+
+<table class="table table-striped table-bordered table-responsive-md table-sm" width="100%" cellspacing="2">
+    <tr>
+        <th>Mã</th>
+        <th>Tên Sản Phẩm</th>
+        <th>Giá Niêm Yết</th>
+        <th class="th-sm">
+        </th>
+    </tr>
+    @foreach (var item in Model)
+    {
+        <tr id="row_" @item.Ma>
+            <td>@item.Ma</td>
+            <td>@item.TenSanPham</td>
+            <td>@Html.TextBox("Ten_"+item.Ma,item.TenSanPham, new { @class = "form-control col-md-8 onhap", @readonly = "readonly" } )</td>
+            <td>@Html.TextBox("Gia_" + item.Ma, item.Gia, new { @class = "form-control col-md-8 onhap", @readonly = "readonly" })</td>
+            <td align="center" class="w-25">
+                <button class="btn btn-danger " onclick="XoaTV(@item.Ma)" type="button"><i class="fa fa-trash"></i></button>
+                <a href="#" class="btn btn-primary btnsua" id="btnsua_@item.Ma" onclick="Sua(@item.Ma)"><i class="fa fa-edit"></i></a>
+                <input style="display:none" type="submit" value="Lưu" onclick="Luu(@item.Ma)" class="btn btn-info btnluu_@item.Ma btnluu" />
+            </td>
+
+        </tr>
+    }
+</table>
+<input type="hidden" id="ma" />
+@*modal xoa thanh vien*@
+<div class="modal" id="modal_delete">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <a href="#" class="close" data-dismiss="modal">&times;</a>
+            </div>
+            <div class="modal-body">
+                <h2>Bạn có Chắc Muốn Xóa thành viên Này Không ??</h2>
+                <p>khi bạn xóa ,thành viên này ngay lập tức sẽ biến mất khỏi ds thành viên</p>
+            </div>
+            <div class="modal-footer">
+                <input type="button" class="btn btn-danger" data-dismiss="modal" value="Hủy" />
+                <input type="button" class="btn btn-primary" onclick="Delete()" value="Đồng ý" />
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    var Sua = function (Ma) {
+        debugger
+        //KHOI DONG GIA TRI MAC DINH
+        $("input[type='text']").attr("readonly", "readonly");
+        $("a.btnsua").show();
+        $("input.btnluu").hide();
+        //
+        $("#ma").val(Ma);
+        var ma = $("#ma").val();
+        $("#Gia_" + Ma).removeAttr("readonly");
+        $("#Ten_" + Ma).removeAttr("readonly");
+        $("#btnsua_" + Ma).hide();
+        $(".btnluu_" + Ma).show();
+    }
+    var Luu = function (Ma) {
+        debugger
+        var matv = Ma;
+        var gia = $("#Gia_" + Ma).val();
+        var ten = $("#Ten_" + Ma).val();
+        $.ajax({
+            type: "POST",
+            url: "/BangGia/SuaGia",
+            data: { Ma: matv, Gia: gia, Ten: ten },
+            success: function (result) {
+                if (result == true) {
+
+                    $("#Gia_" + Ma).attr("readonly", "readonly");
+                    $("#Ten_" + Ma).attr("readonly", "readonly");
+                    $("#btnsua_" + Ma).show();
+                    $(".btnluu_" + Ma).hide();
+                }
+                else {
+                    alert("sửa loại thành viên thất bại, vui lòng kiểm tra lại nội dung đã sửa");
+                }
+
+            }
+        })
+    };
+
+    var XoaTV = function (Ma) {
+        $("#ma").val(Ma);
+        $("#modal_delete").modal();
+
+    }
+    var Delete = function () {
+        debugger
+        var gia = $("#ma").val();
+        $.ajax({
+            type: "POST",
+            url: "/QlThanhVien/XoaBangGia",
+            data: { Ma: ma },
+            success: function (result) {
+                if (result == true) {
+                    $("#modal_delete").modal('hide');
+                    $("#row_" + ma).remove();
+                }
+                else {
+                    alert("xóa  thất bại, vui lòng kiểm tra lại");
+                }
+
+            }
+        })
+
+    }
+
+
+
+    $(document).ready(function () {
+
+
+        $(".btnadd1").click(function () {
+
+            $(this).hide();
+            $(".div_form_add").show();
+
+        });
+        $(".btnadd").click(function () {
+            $(this).hide();
+            $(".btnadd1").show();
+
+            var Data = $("#form0").serialize();
+            $.ajax({
+                type: "POST",
+                url: "/bangGia/Them",
+                data: Data,
+                success: function () {
+                    window.location.href = "/BangGia/Index";
+                }
+            })
+        });
+
+
+    });
+</script>
+

@@ -1,0 +1,9 @@
+﻿@if (ViewBag.lstsp != null)
+{
+    <option value="">--- Lựa Chọn Sản Phẩm--</option>
+    foreach (var item in ViewBag.lstsp)
+    {
+        <option value="@item.Value">@item.Text</option>
+    }
+}
+

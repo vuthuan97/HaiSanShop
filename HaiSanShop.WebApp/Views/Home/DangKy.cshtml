@@ -1,0 +1,81 @@
+﻿@using HaiSanShop.Data.Entites
+@{
+    ViewBag.Title = "DangKy";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@using (Html.BeginForm("DangKy", "Home", FormMethod.Post))
+{
+    <div class="modal-dialog">
+        <!-- Modal content-->
+        <div class="modal-content">
+
+            <div class="modal-body modal-body-sub_agile">
+                <div class="main-mailposi">
+                    <span class="fa fa-envelope-o" aria-hidden="true"></span>
+                </div>
+                <div class="modal_body_left modal_body_left1">
+                    <h3 class="agileinfo_sign">Đăng Ký</h3>
+                    <p>
+
+                        <h3 style="color:red">@ViewBag.thongbao</h3>
+
+                    </p>
+                    @if (Session["dangky"] != null && Session["dangky"] != "")
+                    {
+                        ThanhVien thanhVien = Session["dangky"] as ThanhVien;
+                        <form action="#" method="post">
+                            <div class="styled-input agile-styled-input-top">
+                                <input type="text" placeholder="Họ Tên" value="@thanhVien.HoTen" name="HoTen" required="">
+                            </div>
+                            <div class="styled-input">
+                                <input type="text" placeholder="Tài Khoản" value="@thanhVien.TaiKhoan" name="TaiKhoan" id="taikhoan" required="">
+                                <span id="thongbao" style="color:red"></span>
+                            </div>
+                            <div class="styled-input">
+                                <input type="password" placeholder="Mật Khẩu" name="MatKhau" id="password" required="">
+                            </div>
+
+                            <div class="styled-input">
+                                <input type="text" placeholder="Số Điện Thoại" value="@thanhVien.SDT" name="SDT" required="">
+                            </div>
+                            <div class="styled-input">
+                                <textarea placeholder="Địa Chỉ" class="form-control" name="DiaChi" id="diachi" required="">@thanhVien.DiaChi</textarea>
+                            </div>
+                            <input type="submit" id="btndk" value="Đăng Ký">
+                        </form>
+                    }
+                    else
+                    {
+                        <form action="#" method="post">
+                            <div class="styled-input agile-styled-input-top">
+                                <input type="text" placeholder="Họ Tên" name="HoTen" required="">
+                            </div>
+                            <div class="styled-input">
+                                <input type="text" placeholder="Tài Khoản" name="TaiKhoan" id="taikhoan" required="">
+                                <span id="thongbao" style="color:red"></span>
+                            </div>
+                            <div class="styled-input">
+                                <input type="password" placeholder="Mật Khẩu" name="MatKhau" id="password" required="">
+                            </div>
+
+                            <div class="styled-input">
+                                <input type="text" placeholder="Số Điện Thoại" name="SDT" required="">
+                            </div>
+                            <div class="styled-input">
+                                <textarea placeholder="Địa Chỉ" class="form-control" name="DiaChi" id="diachi" required=""></textarea>
+                            </div>
+                            <input type="submit" id="btndk" value="Đăng Ký">
+                        </form>
+                    }
+
+
+                </div>
+            </div>
+        </div>
+        <!-- //Modal content-->
+    </div>
+}
+
+
+

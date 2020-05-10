@@ -1,0 +1,158 @@
+﻿@using HaiSanShop.Data.Entites
+@model IEnumerable<ItemGioHang>
+@{
+    ViewBag.Title = "XemGioHang";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="services-breadcrumb">
+    <div class="agile_inner_breadcrumb">
+        <div class="container">
+            <ul class="w3_short">
+                <li>
+                    <a href="@Url.Action("Index","Home")">Home</a>
+                    <i>|</i>
+                </li>
+                <li>Giỏ Hàng</li>
+            </ul>
+        </div>
+    </div>
+</div>
+<div class="privacy py-sm-5 py-4">
+    <div class="container py-xl-4 py-lg-2">
+        <!-- tittle heading -->
+        <h3 class="tittle-w3l text-center mb-lg-5 mb-sm-4 mb-3">
+            <span>G</span>iỏ
+            <span>H</span>àng
+        </h3>
+        <!-- //tittle heading -->
+        <div class="checkout-right">
+            <h4 class="mb-sm-4 mb-3">
+                Giỏ Hàng Của Bạn Hiện Tại Có:
+                <span>@Model.Count() Sản Phẩm</span>
+            </h4>
+            <div class="table-responsive-sm table">
+                <table class="timetable_sub">
+                    <thead>
+                        <tr>
+
+                            <th>Hình ẢNH</th>
+                            <th>Tên Sản Phẩm</th>
+                            <th>Đơn Giá</th>
+                            <th>Số Lượng</th>
+                            <th>Thành Tiền</th>
+                            <th>Xóa</th>
+
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            using (Html.BeginForm("UpdateGioHang", "GioHang"))
+                            {
+                                <tr class="rem1">
+                                    @Html.Hidden("MaSP", item.MaSP)
+                                    <td class="invert-image" width="300">
+                                        <a href="single.html">
+                                            <img src="~/Content/ImageSanPham/@item.HinhAnh" alt=" " class="img-responsive">
+                                        </a>
+                                    </td>
+
+                                    <td class="invert">@item.TenSP</td>
+                                    <td class="invert">@item.DonGia.ToString("#,##")VNĐ</td>
+                                    <td class="invert">
+                                        <span id="btnsua-@item.MaSP"><input class="btn btn-outline-success" onclick="btnsua(@item.MaSP)" type="button" value="Sửa" /></span>
+                                        @Html.TextBox("SoLuong", item.SoLuong, new { @class = "value", @id = "SoLuong-" + item.MaSP, @readonly = "readonly", @style = "color:brown" })
+                                        <span style="display:none" id="btnluu-@item.MaSP"><input class="btn btn-outline-success" onclick="btnluu(@item.MaSP)" type="submit" value="Lưu" /></span>
+                                    </td>
+                                    <td id="idthanhtien" class="invert">
+                                        @item.ThanhTien.ToString("#,##")VNĐ
+                                    </td>
+                                    <td class="invert">
+                                        <div class="rem">
+                                            <a href="@Url.Action("XoaGioHang", "GioHang", new { @MaSP = item.MaSP })"><div class="close1"></div></a>
+                                        </div>
+                                    </td>
+                                </tr>
+                            }
+                        }
+                    </tbody>
+                </table>
+
+            </div>
+        </div>
+
+        @if (User.Identity.IsAuthenticated)
+        {
+            ThanhVien tv = Session["DangNhap"] as ThanhVien;
+
+            if (tv != null)
+            {
+                <div class="checkout-left">
+                    <div class="address_form_agile mt-sm-5 mt-4">
+                        <h4 class="mb-sm-4 mb-3">Thông tin khách hàng</h4>
+                        @using (Html.BeginForm("DatHang", "GioHang", FormMethod.Post, new { @class = "creditly-card-form agileinfor_form" }))
+                        {
+                            <input type="hidden" name="MaTV" value="@tv.MaTV" />
+                            <div class="creditly-wrapper wthree, w3_agileits_wrapper">
+                                <div class="information-wrapper">
+                                    <div class="first-row">
+                                        <div class="controls form-group">
+                                            @Html.TextBox("TenKH", tv.HoTen, new { @class = "form-control", @readonly = "true" })
+                                        </div>
+                                        <div class="w3_agileits_card_number_grids">
+                                            <div class="w3_agileits_card_number_grid_left form-group">
+                                                <div class="controls">
+                                                    @Html.TextBox("SoDienThoai", tv.SDT, new { @class = "form-control", @readonly = "true" })
+                                                </div>
+                                            </div>
+                                            <div class="w3_agileits_card_number_grid_right form-group">
+                                                <div class="controls">
+                                                    @Html.TextArea("DiaChi", tv.DiaChi, new { @class = "form-control", @readonly = "true" })
+                                                </div>
+                                            </div>
+                                        </div>
+
+
+                                    </div>
+                                    @if (Model.Count() <= 0)
+                                    {
+                                        <button type="submit" disabled="disabled" class="submit check_out btn ">Tiến hành đặt hàng</button>
+                                        <a style="margin-top:20px;"  href="@Url.Action("Index","Home")" class="btn btn-success btn-lg">Tiếp Tục Mua Hàng</a>
+                                    }
+                                    else
+                                    {
+                                        <button type="submit" class="submit check_out btn ">Tiến hành đặt hàng</button>
+                                        <a style="margin-top:20px;"  href="@Url.Action("Index","Home")" class="btn btn-success btn-lg">Tiếp Tục Mua Hàng</a>
+                                    }
+                                </div>
+                            </div>
+                        }
+
+
+                    </div>
+                </div>
+            }
+
+        }
+        else
+        {
+            <h2>Bạn cần phải đăng nhập để có thể hoàn thành đặt hàng</h2>
+        }
+
+
+    </div>
+    
+    <script>
+        var btnsua = function (MaSP) {
+
+            $("#btnsua-" + MaSP).hide();
+            $("#btnluu-" + MaSP).show();
+            $("#SoLuong-" + MaSP).removeAttr("readonly");
+        }
+        var btnluu = function (MaSP) {
+            $("#btnsua-" + MaSP).show();
+            $("#btnluu-" + MaSP).hide();
+            $("#SoLuong-" + MaSP).attr("readonly", "readonly");
+        }
+    </script>

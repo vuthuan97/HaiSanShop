@@ -1,0 +1,113 @@
+﻿@using HaiSanShop.Data.Entites
+@{
+    ViewBag.Title = "Nhập Sản Phẩm";
+    Layout = "~/Views/Shared/_Layout_Admin.cshtml";
+}
+<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
+@using (Html.BeginForm("NhapNhieuSP", "QLSanPham", FormMethod.Post))
+{
+    <div class="col-md-10">
+        <label class="col-md-2">Danh Mục Sản Phẩm</label>
+        @Html.DropDownList("MaDM", null, "-- Lựa Chọn Danh Mục--", new { @class = "form-control col-md-5" })
+    </div>
+    <div class="col-md-10">
+        <label class="col-md-2">Ngày Nhập</label>
+        @Html.TextBox("NgayNhap", "", new { @class = "form-control col-md-5" })
+    </div>
+
+    <br />
+    <br />
+
+    <table class="table table-responsive tbpn">
+        <tr class="trdetail" style="display:none">
+            <td><select class=" form-control dssp" name=""></select> </td>
+            <td><input type="text" value="0" name="" class="form-control txtsoluong" /> </td>
+            <td><input type="text" value="0" name="" class="form-control txtdongia" /> </td>
+            <td><input class="btn btn-danger btndelete" type="button" value="-" /></td>
+        </tr>
+        <tr class="trfirtchild" data-id="-1">
+            <th>Sản Phẩm</th>
+            <th>Số Lượng Nhập</th>
+            <th>Đơn Giá Nhập</th>
+        </tr>
+
+
+    </table>
+    <br />
+    <input class="btn btn-success btnadd" type="button" value="+" />
+    <input class="btn btn-primary" type="submit" value="Nhập Hàng" />
+    <p id="text"></p>
+}
+
+<script>
+    $("#NgayNhap").datepicker();
+    $("#MaDM").change(function () {
+        var madm = $(this).val();
+        $.ajax({
+            type: "POST",
+            url: "/QLSanPham/loadSPChoPatial?MaDM=" + madm,
+            contentType:"html",
+            success: function (response) {
+                $(".dssp").empty();
+                $(".dssp").append(response);
+            }
+        });
+    });
+  
+    //skqj them bot muc sp
+    $(".btnadd").click(function () {
+       
+        //lay id cua the tr cuoi cung
+        var id_cuoi = $(".tbpn").find("tr:last-child").attr("data-id");
+        i = parseInt(id_cuoi) + 1;
+        var trdetail = $(".trdetail").html();
+        var trcontent = "<tr class=\"trdetailadd\" data-id=\"" + i + "\" >" + trdetail + "</tr> ";
+        $(".tbpn").append(trcontent);
+        loadID();
+    })
+    function loadID() {
+        $(".trdetailadd").each(function () {
+
+            //lay thuoc tinh data-id cua the tr
+            var id = $(this).attr("data-id");
+            var nameMaSP = "[" + id + "].MaSP";
+            var nameDGN = "[" + id + "].DonGiaNhap";
+            var nameSLN = "[" + id + "].SoLuongNhap";
+  
+            //gan name len the
+            $(this).find(".dssp").prop("name", nameMaSP);
+            $(this).find(".txtdongia").prop("name", nameDGN);
+            $(this).find(".txtsoluong").prop("name", nameSLN);
+           
+        });
+    }
+    function UpdateID() {
+        
+        var id_cuoi = $(".tbpn").find(".trfirtchild").attr("data-id");
+        i = parseInt(id_cuoi) + 1;
+        $(".trdetailadd").each(function () {
+           
+            var id = i;
+            $(this).attr("data-id", i);
+            // cap nhap lai id khi xoa
+            var nameSP = "[" + id + "].MaSP";
+            var nameSL = "[" + id + "].SoLuongNhap";
+            var nameDG = "[" + id + "].DonGiaNhap";
+            // gan ten da update len ther
+            $(this).find(".dssp").prop("name", nameSP);
+            $(this).find(".txtdongia").prop("name", nameDG);
+            $(this).find(".txtsoluong").prop("name", nameSL);
+            i++;
+        });
+
+    }
+    $("body").delegate(".btndelete", "click", function () {
+
+        $(this).closest(".trdetailadd").remove();
+        UpdateID();
+    })
+</script>
+

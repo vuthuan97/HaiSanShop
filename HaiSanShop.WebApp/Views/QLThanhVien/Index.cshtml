@@ -1,0 +1,119 @@
+﻿@using HaiSanShop.Data.Entites
+@model IEnumerable<ThanhVien>
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout_Admin.cshtml";
+}
+
+<h2>Danh Sách  Thành Viên </h2>
+<table class="table table-striped table-bordered table-responsive-md table-sm" width="100%" cellspacing="2">
+    <tr>
+        <th>Mã Thành viên</th>
+        <th>Họ Tên</th>
+        <th>Tài Khoản</th>
+        <th>Mã Loại Thành Viên</th>
+        <th>DiaChi</th>
+        <th class="th-sm">
+        </th>
+    </tr>
+    @foreach (var item in Model)
+    {
+        <tr id="row_"@item.MaTV>
+            <td>@item.MaTV</td>
+            <td>@item.HoTen</td>
+            <td>@item.TaiKhoan</td>
+            
+            <td>@Html.TextBox("MaLoaiTV_" + item.MaTV, item.MaLoaiTV, new { @class = "form-control col-md-8 onhap", @readonly = "readonly" })</td>
+            <td>@item.DiaChi</td>
+            <td align="center" class="w-25">
+                <button class="btn btn-danger " onclick="XoaTV(@item.MaTV)" type="button"><i class="fa fa-trash"></i></button>
+                <a href="#" class="btn btn-primary btnsua" id="btnsua_@item.MaTV" onclick="Sua(@item.MaTV)"><i class="fa fa-edit"></i></a>
+                <input style="display:none" type="submit" value="Lưu" onclick="Luu(@item.MaTV)" class="btn btn-info btnluu_@item.MaTV btnluu" />
+            </td>
+
+        </tr>
+    }
+</table>
+<input type="hidden" id="matv" />
+@*modal xoa thanh vien*@
+<div class="modal" id="modal_delete">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <a href="#" class="close" data-dismiss="modal">&times;</a>
+            </div>
+            <div class="modal-body">
+                <h2>Bạn có Chắc Muốn Xóa thành viên Này Không ??</h2>
+                <p>khi bạn xóa ,thành viên này ngay lập tức sẽ biến mất khỏi ds thành viên</p>
+            </div>
+            <div class="modal-footer">
+                <input type="button" class="btn btn-danger" data-dismiss="modal" value="Hủy" />
+                <input type="button" class="btn btn-primary" onclick="DeleteTV()" value="Đồng ý" />
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    var Sua = function (MaTV) {
+        debugger
+        //KHOI DONG GIA TRI MAC DINH
+        $("input[type='text']").attr("readonly", "readonly");
+        $("a.btnsua").show();
+        $("input.btnluu").hide();
+        //
+        $("#matv").val(MaTV);
+        var matv = $("#matv").val();
+        $("#MaLoaiTV_" + MaTV).removeAttr("readonly");
+        $("#btnsua_" + MaTV).hide();
+        $(".btnluu_" + MaTV).show();
+    }
+    var Luu = function (MaTV) {
+        debugger
+        var matv = MaTV;
+        var maloai = $("#MaLoaiTV_" + MaTV).val();
+        $.ajax({
+            type: "POST",
+            url: "/QLThanhVien/SuaLoai",
+            data: { MaTV: matv, MaLoaiTV: maloai },
+            success: function (result) {
+                if (result == true) {
+
+                    $("#MaLoaiTV_" + MaTV).attr("readonly", "readonly");
+                    $("#btnsua_" + MaTV).show();
+                    $(".btnluu_" + MaTV).hide();
+                }
+                else {
+                    alert("sửa loại thành viên thất bại, vui lòng kiểm tra lại nội dung đã sửa");
+                }
+
+            }
+        })
+    };
+
+    var XoaTV = function (MaTV) {
+        $("#matv").val(MaTV);
+        $("#modal_delete").modal();
+
+    }
+    var DeleteTV = function () {
+        debugger
+        var maTV = $("#matv").val();
+        $.ajax({
+            type: "POST",
+            url: "/QLThanhVien/XoaTV",
+            data: { MaTV: maTV },
+            success: function (result) {
+                if (result == true) {
+                    $("#modal_delete").modal('hide');
+                    $("#row_" + maTV).remove();
+                }
+                else {
+                    alert("xóa thành viên thất bại, vui lòng kiểm tra lại");
+                }
+               
+            }
+        })
+
+    }
+</script>

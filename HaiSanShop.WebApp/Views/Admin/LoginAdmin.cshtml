@@ -1,0 +1,51 @@
+﻿
+@{
+    Layout = null;
+   
+}
+    <link href="~/Content/bootstrap.css" rel="stylesheet" />
+<script src="~/Scripts/jquery-3.4.1.min.js"></script>
+
+<center style="background-color:cornflowerblue">
+    <h2>@TempData["login"]</h2>
+    <div class="container" tabindex="-1" role="dialog">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Đăng Nhập Trang Quản Trị</h5>
+                </div>
+                <div class="bg-success h-25" >@ViewBag.thongbao</div>
+                @using (Ajax.BeginForm("LoginAdmin", "Admin", new AjaxOptions { InsertionMode = InsertionMode.Replace }))
+                {
+                    <div class="modal-body">
+
+                        <div class="img-fluid">
+                            <img src="http://icons.iconarchive.com/icons/aha-soft/free-large-boss/128/Admin-icon.png" alt="Anh-admin" />
+                        </div>
+                        @Html.TextBox("TaiKhoan", "", new { @class = "form-control col-md-7", @placeholder = " NhậpTài Khoản" })
+                        <br />
+                        @Html.Password("MatKhau", "", new { @class = "form-control col-md-7", @placeholder = " Nhập Mật Khẩu" })
+
+                    </div>
+                    <div class="modal-footer ml-1">
+                        <input type="submit" class="btn btn-primary btn-login" value="Đăng Nhập" />
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+
+</center>
+
+<script type="text/javascript">
+    $(".btn-login").click(function () {
+
+        debugger
+        if ($("#TaiKhoan").val() == "" || $("#MatKhau").val() == "") {
+            alert("Tài Khoản Hoặc Mật khẩu Chưa Được Nhập");
+        }
+        
+    })
+
+
+</script>

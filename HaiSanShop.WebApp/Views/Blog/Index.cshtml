@@ -1,0 +1,54 @@
+﻿@using HaiSanShop.Data.Entites
+@using PagedList.Mvc
+@model PagedList.IPagedList<Blog>
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+    <div class="container">
+
+        <h3 class="tittle-w3l">
+            Blog Chế Biến
+            <span class="heading-style">
+                <i></i>
+                <i></i>
+                <i></i>
+            </span>
+        </h3>
+        <div class="agileinfo-ads-display col-md-9 w3l-rightpro">
+            <div class="wrapper">
+                @foreach (var item in Model)
+                {
+                    <div class="top-recipe-item" style="margin-bottom:20px">
+
+                        <div class="row">
+                            <div class="col-sm-4">
+
+                                <div>
+                                    <img src="~/Content/ImageBlog/@item.AnhMinhHoa" height="180" width="145" alt="" />
+                                </div>
+                            </div>
+                            <div class="col-sm-8">
+                                <div class="top-recipe-text">
+
+                                    <a href="@Url.Action("ViewBlog","Blog",new {@Ma=item.Ma})">
+                                        <h4>@item.TieuDe</h4>
+                                    </a>
+                                    <p>
+                                        @Html.Raw(item.VanTat)
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                }
+                <div class="clearfix"></div>
+
+            </div>
+            <div>
+                Trang @(Model.PageCount > Model.PageNumber ? 1 : Model.PageNumber)/@Model.PageCount
+                @Html.PagedListPager(Model, page => Url.Action("Index", "Blog", new { page = page }))
+            </div>
+          
+        </div></div>

@@ -1,0 +1,86 @@
+﻿@model HaiSanShop.Data.Entites.Blog
+
+@{
+    ViewBag.Title = "CreateBlog";
+    Layout = "~/Views/Shared/_Layout_Admin.cshtml";
+}
+
+    <script src="~/ContentAdmin/tinymce/js/tinymce/tinymce.min.js"></script>
+
+@using (Html.BeginForm("CreateBlog","QLBlog",FormMethod.Post, new { @enctype = "multipart/form-data" })) 
+{
+    @Html.AntiForgeryToken()
+    
+<div class="form-horizontal">
+    <h2>CreateBlog</h2>
+    <hr />
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+     <h3>@ViewBag.thongbao</h3>
+
+    <div class="form-group">
+        <label class="control-label col-md-2">Tiêu Đề</label>
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.TieuDe, new { htmlAttributes = new { @class = "form-control col-md-5" } })
+            @Html.ValidationMessageFor(model => model.TieuDe, "", new { @class = "text-danger" })
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-md-2">Văn Tắt</label>
+        <div class="col-md-10">
+            @Html.TextAreaFor(model => model.VanTat, new { htmlAttributes = new { @class = "form-control"} })
+            @Html.ValidationMessageFor(model => model.VanTat, "", new { @class = "text-danger" })
+        </div>
+    </div>
+    
+    <div class="form-group">
+        <div class="col-md-10">
+                <div class="form-group">
+                    <label>Chọn Hình Ảnh Đi kèm</label>
+                    
+                    <input type="file" id="HinhAnh" name="HinhAnh" class="form-control-file" />
+                    <span style="color:red">@ViewBag.thongbaoUpload</span>
+                </div>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="control-label col-md-2">Nội Dung</label>
+        <div class="col-md-10">
+            @Html.TextAreaFor(model => model.NoiDung, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.NoiDung, "", new { @class = "text-danger" })
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-md-2">Hiện Ngay Sau Khi Đăng</label>
+        <div class="col-md-10">
+            <div class="checkbox">
+                @Html.EditorFor(model => model.Hien)
+                @Html.ValidationMessageFor(model => model.Hien, "", new { @class = "text-danger" })
+            </div>
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            <input type="submit"  value="Create" class="btn btn-primary" />
+        </div>
+    </div>
+</div>
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+<script>
+    tinymce.init({
+  selector: 'textarea',
+  plugins: 'image media link tinydrive code imagetools',
+    height: 300,
+    width:700,
+  toolbar: 'insertfile image link | code | bold italic',
+  tinydrive_token_provider: 'URL_TO_YOUR_TOKEN_PROVIDER',
+  tinydrive_dropbox_app_key: 'YOUR_DROPBOX_APP_KEY',
+  tinydrive_google_drive_key: 'YOUR_GOOGLE_DRIVE_KEY',
+  tinydrive_google_drive_client_id: 'YOUR_GOOGLE_DRIVE_CLIENT_ID'
+    });
+
+</script>

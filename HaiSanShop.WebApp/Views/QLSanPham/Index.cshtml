@@ -1,0 +1,108 @@
+﻿@using HaiSanShop.Data.Entites
+@using PagedList.Mvc
+@model PagedList.IPagedList<SanPham>
+
+@{
+    ViewBag.Title = "Quản Lý Sản Phẩm";
+    Layout = "~/Views/Shared/_Layout_Admin.cshtml";
+}
+
+    <link href="~/Content/PagedList.css" rel="stylesheet" />
+
+
+
+<a class="btn btn-success mb-2" href="@Url.Action("ThemMoi","QLSanPham")">Thêm Mới Sản Phẩm <i class="fa fa-add"></i></a>
+<table class="table">
+    <thead class="thead-light">
+        <tr>
+            <th scope="col">Mã Sản Phẩm</th>
+            <th scope="col">Tên Sản Phẩm</th>
+            <th scope="col">Hình Ảnh</th>
+            <th scope="col">Danh Mục</th>
+            <th scope="col">Đơn Giá</th>
+            <th scope="col">Lượng Tồn</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr id="row_@item.MaSP">
+                <th scope="row">@item.MaSP</th>
+                <td>@item.TenSP</td>
+                <td><img src="~/Content/ImageSanPham/@item.HinhAnh" height="100" width="80" /></td>
+                <td>@item.DanhMucSanPhams.TenDanhMuc</td>
+                <td>@item.DonGia.ToString("#,##")VNĐ</td>
+                <td>@item.SoLuongTon</td>
+                <td><a href="#" class="btn btn-danger" onclick="ConfirmDelete(@item.MaSP)"><i class="fa fa-trash"></i></a></td>
+
+                <td><a href="@Url.Action("SuaSanPham","QLSanPham",new { @MaSP=item.MaSP})" class="btn btn-success"><i class="fa fa-edit"></i></a></td>
+            </tr>
+
+        }
+
+    </tbody>
+</table>
+@Html.PagedListPager(Model, page => Url.Action("Index", "QLSanPham", new { page = page }), PagedListRenderOptions.Classic)
+
+<input type="hidden" id="HiddenMaSP" />
+<div class="modal" id="mymodal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <h3 class="modal-title">Xóa Sản Phẩm</h3>
+                <a href="#" class="close" data-dismiss="modal">&times;</a>
+
+            </div>
+
+            <div class="modal-body">
+                <h4>bạn chắc chắn muốn xóa sản phẩm này</h4>
+            </div>
+            <div class="modal-footer">
+                <a href="#" class="btn btn-danger" data-dismiss="modal">Hủy</a>
+                <a href="#" class="btn btn-success" onclick="DeleteSP()">Đồng ý</a>
+
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<div class="modal " id="modaldetail">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title"> Chi tiết Sản Phẩm</h3>
+                <a href="#" class="close" data-dismiss="modal">&times;</a>
+            </div>
+            <div class="modal-body" id="bodyketqua">
+
+
+
+            </div>
+
+        </div>
+    </div>
+</div>
+<script>
+    //jquery delete
+    var ConfirmDelete = function (MaSP) {
+        $("#HiddenMaSP").val(MaSP);
+        $("#mymodal").modal('show');
+    }
+    var DeleteSP = function () {
+        var masp = $("#HiddenMaSP").val();
+        $.ajax({
+
+            type: "POST",
+            url: "/QLSanPham/XoaSanPham",
+            data: { MaSP: masp },
+            success: function (result) {
+                $("#mymodal").modal('hide');
+                $("#row_" + masp).remove();
+            }
+        })
+    }
+
+
+</script>

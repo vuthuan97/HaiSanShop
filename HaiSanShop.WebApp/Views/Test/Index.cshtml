@@ -1,0 +1,21 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Tesst</title>
+</head>
+<body>
+    <div class="form-group"> 
+
+        <label>select</label>
+        @Html.DropDownList("MaDM",new SelectList(ViewBag.lst,"DanhMucSanPhams.MaDM","DanhMucSanPhams.TenDanhMuc","LoaiSanPhams.TenLoai",0),"select",new { @class="form-control"})
+
+    </div>
+</body>
+</html>

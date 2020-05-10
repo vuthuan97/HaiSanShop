@@ -1,0 +1,69 @@
+﻿@using HaiSanShop.Data.Entites
+@using  PagedList.Mvc
+@model  PagedList.IPagedList<SanPham>
+@{
+    ViewBag.Title = "Search";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@if (Model.Count() <= 0)
+{
+    <div class="agileinfo-ads-display col-lg-9">
+        <div class="wrapper">
+            <h1>Chưa có sản phẩm nào được tìm </h1>
+        </div>
+    </div>
+}
+else
+{
+
+    <div class="agileinfo-ads-display col-lg-11">
+        <div class="wrapper">
+          
+            <div class="product-sec1 px-sm-4 px-3 py-sm-5  py-3 mt-4">
+                <h2>Kết Qủa Tìm Kiếm Được </h2>
+                <div class="row">
+                    @foreach (var item in Model.OrderBy(c => c.DonGia))
+                    {
+                        <div class="col-md-4 product-men mt-1">
+                            <div class="men-pro-item simpleCart_shelfItem">
+                                <div class="men-thumb-item text-center">
+                                    <img src="~/Content/ImageSanPham/@item.HinhAnh" width="150" height="200" alt="anhsp">
+                                    <div class="men-cart-pro">
+                                        <div class="inner-men-cart-pro">
+                                            <a href="@Url.Action("ChiTiet", "SanPham", new { @MaSP = item.MaSP })" class="link-product-add-cart">Xem chi tiết</a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="item-info-product text-center border-top mt-4 h-25">
+                                    <h4 class="pt-1">
+                                        <a href="@Url.Action("ChiTiet", "SanPham", new { @MaSP = item.MaSP })">@item.TenSP</a>
+                                    </h4>
+                                    <div class="info-product-price my-2">
+                                        <span class="item_price">@item.DonGia.ToString("#,##")VNĐ</span>
+
+                                    </div>
+                                    <div class="snipcart-details top_brand_home_details item_add single-item hvr-outline-out">
+
+                                        <a class="btn btn-primary btn-lg" role="button" href="@Url.Action("ThemGioHang", "GioHang", new { @MaSP = item.MaSP, @strURL = Request.Url.ToString() })">Thêm Vào Giỏ Hàng</a>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+
+                    }
+
+
+                </div>
+                Trang @(Model.PageCount > Model.PageNumber ? 1 : Model.PageNumber)/@Model.PageCount
+                @Html.PagedListPager(Model, page => Url.Action("Search", "SanPham", new { @keyword = ViewBag.key, page = page }))
+            </div>
+
+
+        </div>
+
+    </div>
+}
+
+

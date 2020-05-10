@@ -1,0 +1,165 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="..\packages\EntityFramework.6.4.0\build\EntityFramework.props" Condition="Exists('..\packages\EntityFramework.6.4.0\build\EntityFramework.props')" />
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{F80D6B50-C2BB-45E6-9E9F-E2F216C88DD9}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>HaiSanShop.Data</RootNamespace>
+    <AssemblyName>HaiSanShop.Data</AssemblyName>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <Deterministic>true</Deterministic>
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.4.0\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.4.0\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Configuration\BangGiaConfiguration.cs" />
+    <Compile Include="Configuration\BlogConfiguration.cs" />
+    <Compile Include="Configuration\ChiTietDonDatHangConfiguration.cs" />
+    <Compile Include="Configuration\ChiTietPhieuNhapConfiguration.cs" />
+    <Compile Include="Configuration\DanhMucSanPhamConfiguration.cs" />
+    <Compile Include="Configuration\DonDatHangConfiguration.cs" />
+    <Compile Include="Configuration\KhachHangConfiguation.cs" />
+    <Compile Include="Configuration\LoaiSanPhamConfiguration.cs" />
+    <Compile Include="Configuration\LoaiThanhVienConfiguration.cs" />
+    <Compile Include="Configuration\PhanQuyenConfiguration.cs" />
+    <Compile Include="Configuration\PhieuNhapConfiguration.cs" />
+    <Compile Include="Configuration\QuyenConfiguration.cs" />
+    <Compile Include="Configuration\SanPhamCongfiguration.cs" />
+    <Compile Include="Configuration\ThanhVienConfiguration.cs" />
+    <Compile Include="EF\HaiSanHopDbContext.cs" />
+    <Compile Include="Entites\BangGia.cs" />
+    <Compile Include="Entites\Blog.cs" />
+    <Compile Include="Entites\ChiTietDonDatHang.cs" />
+    <Compile Include="Entites\ChiTietPhieuNhap.cs" />
+    <Compile Include="Entites\DanhMucSanPham.cs" />
+    <Compile Include="Entites\DonDatHang.cs" />
+    <Compile Include="Entites\ItemGioHang.cs" />
+    <Compile Include="Entites\KhachHang.cs" />
+    <Compile Include="Entites\LoaiSanPham.cs" />
+    <Compile Include="Entites\LoaiThanhVien.cs" />
+    <Compile Include="Entites\PhanQuyen.cs" />
+    <Compile Include="Entites\PhieuNhap.cs" />
+    <Compile Include="Entites\Quyen.cs" />
+    <Compile Include="Entites\SanPham.cs" />
+    <Compile Include="Entites\ThanhVien.cs" />
+    <Compile Include="Migrations\202005010757011_CreateDB.cs" />
+    <Compile Include="Migrations\202005010757011_CreateDB.designer.cs">
+      <DependentUpon>202005010757011_CreateDB.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202005020425035_tableKhachHang.cs" />
+    <Compile Include="Migrations\202005020425035_tableKhachHang.designer.cs">
+      <DependentUpon>202005020425035_tableKhachHang.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202005020429207_updateThanhvien.cs" />
+    <Compile Include="Migrations\202005020429207_updateThanhvien.designer.cs">
+      <DependentUpon>202005020429207_updateThanhvien.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202005020434370_updateThanhvien2.cs" />
+    <Compile Include="Migrations\202005020434370_updateThanhvien2.designer.cs">
+      <DependentUpon>202005020434370_updateThanhvien2.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202005020437476_updatechitietdondathang.cs" />
+    <Compile Include="Migrations\202005020437476_updatechitietdondathang.designer.cs">
+      <DependentUpon>202005020437476_updatechitietdondathang.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202005021257220_AddPropertyTableSanPham.cs" />
+    <Compile Include="Migrations\202005021257220_AddPropertyTableSanPham.designer.cs">
+      <DependentUpon>202005021257220_AddPropertyTableSanPham.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202005030845319_CreateBangGia.cs" />
+    <Compile Include="Migrations\202005030845319_CreateBangGia.designer.cs">
+      <DependentUpon>202005030845319_CreateBangGia.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202005031430074_addBlog.cs" />
+    <Compile Include="Migrations\202005031430074_addBlog.designer.cs">
+      <DependentUpon>202005031430074_addBlog.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202005031448345_updateBlog.cs" />
+    <Compile Include="Migrations\202005031448345_updateBlog.designer.cs">
+      <DependentUpon>202005031448345_updateBlog.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\Configuration.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\202005010757011_CreateDB.resx">
+      <DependentUpon>202005010757011_CreateDB.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202005020425035_tableKhachHang.resx">
+      <DependentUpon>202005020425035_tableKhachHang.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202005020429207_updateThanhvien.resx">
+      <DependentUpon>202005020429207_updateThanhvien.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202005020434370_updateThanhvien2.resx">
+      <DependentUpon>202005020434370_updateThanhvien2.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202005020437476_updatechitietdondathang.resx">
+      <DependentUpon>202005020437476_updatechitietdondathang.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202005021257220_AddPropertyTableSanPham.resx">
+      <DependentUpon>202005021257220_AddPropertyTableSanPham.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202005030845319_CreateBangGia.resx">
+      <DependentUpon>202005030845319_CreateBangGia.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202005031430074_addBlog.resx">
+      <DependentUpon>202005031430074_addBlog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202005031448345_updateBlog.resx">
+      <DependentUpon>202005031448345_updateBlog.cs</DependentUpon>
+    </EmbeddedResource>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\packages\EntityFramework.6.4.0\build\EntityFramework.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\EntityFramework.6.4.0\build\EntityFramework.props'))" />
+    <Error Condition="!Exists('..\packages\EntityFramework.6.4.0\build\EntityFramework.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\EntityFramework.6.4.0\build\EntityFramework.targets'))" />
+  </Target>
+  <Import Project="..\packages\EntityFramework.6.4.0\build\EntityFramework.targets" Condition="Exists('..\packages\EntityFramework.6.4.0\build\EntityFramework.targets')" />
+</Project>

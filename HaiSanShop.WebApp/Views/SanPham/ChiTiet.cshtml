@@ -1,0 +1,73 @@
+﻿@using  HaiSanShop.Data.Entites
+@model SanPham
+@{
+    ViewBag.Title = "ChiTiet";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+    <div class="services-breadcrumb">
+        <div class="agile_inner_breadcrumb">
+            <div class="container">
+                <ul class="w3_short">
+                    <li>
+                        <a href="@Url.Action("Index","Home")">Trang Chủ</a>
+                        <i>|</i>
+                    </li>
+                    <li>@Model.TenSP</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="banner-bootom-w3-agileits">
+        <div class="container">
+            <!-- tittle heading -->
+            <h3 class="tittle-w3l">
+                Chi Tiết Sản Phẩm
+                <span class="heading-style">
+                    <i></i>
+                    <i></i>
+                    <i></i>
+                </span>
+            </h3>
+            <!-- //tittle heading -->
+            <div class="col-md-5 single-right-left ">
+                <div class="grid images_3_of_2">
+                       <img src="~/Content/ImageSanPham/@Model.HinhAnh" height="437" width="437" alt="img-@Model.TenSP" />
+                </div>
+            </div>
+            <div class="col-md-7 single-right-left simpleCart_shelfItem">
+                <h3>@Model.TenSP</h3>
+                
+                <p>
+                    <span class="item_price">@Model.DonGia.ToString("#,##")VNĐ</span>
+                    
+                    <p>FreeShip khi mua trên 3kg</p>
+                </p>
+                
+                <div class="product-single-w3l">
+                    <p>
+                        <i class="fa fa-hand-o-right" aria-hidden="true"></i>Một Vài Cách
+                        <label>Chế Biến </label>Ngon
+                    </p>
+                    <div>
+                       cách chế biến
+                    </div>
+                    
+                </div>
+                <div class="occasion-cart">
+                    <div class="snipcart-details top_brand_home_details item_add single-item hvr-outline-out">
+
+                        <a class="btn btn-primary btn-lg" role="button" href="@Url.Action("ThemGioHang","GioHang", new {@MaSP= Model.MaSP, @strURL= Request.Url.ToString() })">Thêm Vào Giỏ Hàng</a>
+                    </div>
+
+                </div>
+
+            </div>
+            <div class="clearfix"> </div>
+            <div style="margin-top:50px;">
+                mota san pham
+            </div>
+        </div>
+    </div>
+   
+

@@ -1,0 +1,61 @@
+﻿@using  HaiSanShop.Data.Entites
+@model IEnumerable<SanPham>
+@{
+    ViewBag.Title = "Home Page";
+}
+<h3 class="tittle-w3l">
+    <span class="heading-style">
+        <i></i>
+        <i></i>
+        <i></i>
+        <i></i>
+        <i></i>
+    </span>
+</h3>
+@{
+    IEnumerable<SanPham> spts = ViewBag.sptuoisong as IEnumerable<SanPham>;
+    IEnumerable<SanPham> dokho = ViewBag.spdokho as IEnumerable<SanPham>;
+    IEnumerable<SanPham> dovo = ViewBag.spvo as IEnumerable<SanPham>;
+    IEnumerable<SanPham> domuoi = ViewBag.spmuoi as IEnumerable<SanPham>;
+
+}
+<div class="wrapper">
+    <!-- Hàng Tươi Sống -->
+    <div class="product-sec1">
+        <h3 class="heading-tittle">Đồ Tươi Sống</h3>
+        @Html.Partial("~/Views/SanPham/SanPhamHomePartial.cshtml", spts)
+    </div>
+    <!-- //first section (nuts) -->
+    <!-- second section (nuts special) -->
+    <div class="product-sec1 product-sec2">
+        <div class="col-xs-9 effect-bg">
+            <h3 class="">Đồ Tươi Sống</h3>
+            <h6>Hải Sản Khô đúng chuẩn</h6>
+            <p>Giảm 10% Khi Là Khách Vip</p>
+        </div>
+        <h3 class="w3l-nut-middle">Chất &amp;Lượng</h3>
+
+        <div class="clearfix"></div>
+    </div>
+    <!-- //second section (nuts special) -->
+    <!-- Sản Phẩm Đồ Khô-->
+    <div class="product-sec1">
+        <h3 class="heading-tittle">Đồ Khô</h3>
+        @Html.Partial("~/Views/SanPham/SanPhamHomePartial.cshtml", dokho)
+    </div>
+    <!-- //third section (oils) -->
+    <!-- Đồ có vỏ -->
+    <div class="product-sec1">
+        <h3 class="heading-tittle">Hải Sản Có Vỏ</h3>
+        @Html.Partial("~/Views/SanPham/SanPhamHomePartial.cshtml", dovo)
+    </div>
+    <!-- //fourth section (noodles) -->
+    <!-- //third section (oils) -->
+    <!-- Hải Sản Đã Chế Biến -->
+    <div class="product-sec1">
+        <h3 class="heading-tittle">Hải Sản Đã Chế Biến</h3>
+        @Html.Partial("~/Views/SanPham/SanPhamHomePartial.cshtml", domuoi)
+    </div>
+    <!-- //fourth section (noodles) -->
+
+</div>

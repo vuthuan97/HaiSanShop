@@ -1,0 +1,66 @@
+﻿@using HaiSanShop.Data.Entites
+@model IEnumerable<DonDatHang>
+@{
+    ViewBag.Title = "HoanTat";
+    Layout = "~/Views/Shared/_Layout_Admin.cshtml";
+}
+
+<center>
+    <div>
+        <ul class="nav nav-tabs">
+            <li class="nav-item">
+                <a class="nav-link" href="@Url.Action("Index","QLDonHang")">Đơn Hàng Mới</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="@Url.Action("ChuaNhanHang","QLDonHang")">Chưa Nhận Hàng</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link active" href="@Url.Action("HoanTat","QLDonHang")">Hoàn Tất</a>
+            </li>
+
+        </ul>
+    </div>
+    <br /><br />
+    <table class="table table-responsive ml-3">
+        <thead>
+            <tr>
+                <th>Mã Đơn Đặt Hàng</th>
+                <th>Khách Hàng</th>
+                <th>Ngày Đặt</th>
+                <th>Thanh Toán</th>
+                <th>Giao Hàng</th>
+                <th>Ngày Giao</th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (Model.Count() != 0)
+            {
+                foreach (var item in Model)
+                {
+                    <tr>
+                        <td>@item.MaDDH</td>
+                        <td>@item.KhachHangs.TenKH</td>
+                        <td>@item.NgayDat.ToString("dd/MM/yyyy")</td>
+                        <td>@item.DaThanhToan</td>
+                        <td>@item.DaGiao</td>
+                        <td>@item.NgayGiao.ToString("dd/MM/yyyy")</td>
+                        <td><a class="btn btn-success" href="@Url.Action("DuyetDon","QLDonHang",new {@id=item.MaDDH })">Duyệt Đơn</a></td>
+                    </tr>
+                }
+
+            }
+            else
+            {
+
+                <tr>
+                    <td colspan="6">
+                        <h2 style="color:green"> chưa có đơn hàng  nào</h2>
+                    </td>
+                </tr>
+
+            }
+        </tbody>
+
+    </table>
+</center>
+

@@ -1,0 +1,163 @@
+﻿@using HaiSanShop.Data.Entites
+@model  ThanhVien
+@{
+    ViewBag.Title = "ThongTin";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<section>
+    <nav1>
+        <ul>
+            <li><a href="#tt" class="ttn"><i class="fa fa-address-card"></i> Thông Tin Cá Nhân</a></li>
+            <li><a href="#cn" class="tkn"><i class="fa fa-angellist"></i> Tài Khoản</a></li>
+
+        </ul>
+    </nav1>
+
+    <div id="thongtin" class="tt" >
+       
+        @using (Ajax.BeginForm("SuaTT", "KhachHang", new AjaxOptions {InsertionMode = InsertionMode.Replace,UpdateTargetId="thongbaott"}))
+        {
+        <div style="color:black;">
+            <h2>Thông Tin Cá Nhân</h2>
+            <h3 style="color:red" id="thongbaott"></h3>
+            <hr />
+            <input name="MaTV" type="hidden" value="@Model.MaTV" />
+            <div class="form-group">
+                <label class="control-label col-md-2">Họ Tên</label>
+                <div class="col-md-10 ">
+                    <input class="oinput" type="text" value="@Model.HoTen" name="HoTen" />
+
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="control-label col-md-2">Điện Thoại</label>
+                <div class="col-md-10 inputform">
+                    <input class="oinput" type="text" value="@Model.SDT" name="SDT" />
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="control-label col-md-2">Địa Chỉ</label>
+                <div class="col-md-10">
+                    <textarea class="oinput" name="DiaChi">@Model.DiaChi</textarea>
+
+                </div>
+            </div>
+
+            <div class="col-md-offset-2 col-md-10">
+                <input class="onhan submitform1" type="submit" value="Sửa" />
+            </div>
+
+        </div>
+        }
+
+    </div>
+    <div id="thongtin" class="tk">
+        <h1>Thông Tin Tài Khoản</h1>
+        <h3 style="color:red" id="thongbaotk"></h3>
+        <hr />
+        @using (Ajax.BeginForm("SuaMK", "KhachHang", new AjaxOptions {InsertionMode= InsertionMode.Replace,UpdateTargetId="thongbaotk"}))
+        {
+            <input name="MaTV" type="hidden" value="@Model.MaTV" />
+            <div class="form-group">
+                <label class="control-label col-md-5">tài Khoản</label>
+                <input class="form-control col-md-2" type="text" value="@Model.TaiKhoan" readonly placeholder="" name="TaiKhoan" />
+            </div>
+            <div class="form-group">
+                <label class="control-label col-md-3">Mật Khẩu</label>
+                <input class="form-control col-md-5" type="password" value="@Model.MatKhau" placeholder="" name="MatKhau" />
+            </div>
+            <div class="form-group col-md-10" style="margin-top:20px;margin-left:250px">
+                <input class="onhan" type="submit" value="Sửa" />
+
+            </div>
+        }
+
+    </div>
+
+</section>
+
+<style>
+    nav1 {
+       
+        float: left;
+        width: 30%;
+        height: 450px; /* only for demonstration, should be removed */
+        background-color: darkkhaki;
+        padding: 20px;
+        border-radius: 30px;
+    }
+
+        /* Style the list inside the menu */
+        nav1 ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+            nav1 ul li {
+                margin-bottom: 10px;
+                margin-top: 20px;
+            }
+
+    div#thongtin {
+        float: right;
+        padding: 20px;
+        width: 68%;
+        background-color: darkkhaki;
+        height: 450px; /* only for demonstration, should be removed */
+        border-bottom-left-radius: 30px;
+        border-bottom-right-radius: 30px;
+       
+    }
+
+    input.oinput {
+        border-radius: 10px;
+        min-height: 40px;
+        min-width: 300px;
+        text-align: center
+    }
+
+    textarea.oinput {
+        border-radius: 10px;
+        height: 70px;
+        width: 400px;
+    }
+
+    input.onhan {
+        margin-bottom: 20px;
+        width: 200px;
+        height: 60px;
+        display: inline-block;
+        color: #fff;
+        background-color: #5cb85c;
+        border-color: #4cae4c;
+        border-radius: 10px;
+        padding: 6px 12px;
+        border: 1px solid transparent;
+        box-sizing: border-box;
+        position: relative;
+    }
+
+    #thongtin div {
+        margin-bottom: 40px;
+    }
+</style>
+<script>
+
+    $(document).ready(function () {
+        $(".tk").slideUp();
+        $(".tt").slideDown();
+        $(".ttn").click(function () {
+            $(".tk").slideUp();
+            $(".tt").slideDown();
+        })
+        $(".tkn").click(function () {
+
+            $(".tk").slideDown();
+            $(".tt").slideUp();
+        })
+
+      
+    })
+
+</script>

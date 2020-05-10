@@ -1,0 +1,91 @@
+﻿@using HaiSanShop.Data.Entites
+@model DonDatHang
+@{
+    ViewBag.Title = "DuyetDon";
+    Layout = "~/Views/Shared/_Layout_Admin.cshtml";
+}
+
+<a href="@Url.Action("Index","QLDonHang")" class="btn btn-danger"> Quay Lại</a>
+<br />
+<br />
+<div class="align-center">
+    <h3 style="color:rebeccapurple">@ViewBag.thongbao</h3>
+    @using (Html.BeginForm())
+    {
+        <div class="modal-content modal-open noidungdonhang">
+            <table class="table">
+                <tr>
+                    <td>Mã Đơn :@Model.MaDDH @Html.Hidden("MaDDH", Model.MaDDH)</td>
+                    <td>Khách Hàng: @Model.KhachHangs.TenKH</td>
+                </tr>
+                <tr>
+                    <td>Giao Hàng  :@Html.CheckBox("DaGiao", Model.DaGiao)</td>
+                    <td>Thanh Toán :@Html.CheckBox("DaThanhToan",Model.DaThanhToan)</td>
+                    
+                </tr>
+            </table>
+            <br />
+            <h3>Chi Tiết Đơn Hàng</h3>
+            <br />
+            <table class="table table-active">
+                <thead>
+                    <tr>
+                        <th>Sản Phẩm</th>
+                        <th>Hình Ảnh</th>
+                        <th>Số Lượng</th>
+                        <th>Đơn Giá</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @{
+                        IEnumerable<ChiTietDonDatHang> lstchitiet = ViewBag.lstchitiet as IEnumerable<ChiTietDonDatHang>;
+                        int? sl = 0;
+                        decimal? tt = 0;
+                    }
+                    @foreach (var item in lstchitiet)
+                    {
+                        sl += item.SoLuong;
+                        tt += item.DonGia * item.SoLuong;
+                        <tr>
+                            <td>@item.SanPhams.TenSP</td>
+                            <td><img src="~/Content/ImageSanPham/@item.SanPhams.HinhAnh" height="100" width="80" /></td>
+                            <td>@item.SoLuong</td>
+                            <td>@item.DonGia.ToString("#,##")VNĐ</td>
+                        </tr>
+                    }
+                    <tr>
+                        <td colspan="2">Tổng Số Lượng : @sl</td>
+                        <td colspan="2">Tổng Tiền :@tt.Value.ToString("#,##")</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <br /><br />
+        <input class="btn btn-primary" id="btn_in" type="button" value="In Đơn Hàng" />
+        <input class="btn btn-success" id="btn_up" type="submit" value="Cập Nhập" />
+    }
+</div>
+
+<script>
+   
+    
+    $("#btn_in").click(function () {
+        var content = $(".noidungdonhang").html();
+        InDonHang(content);
+    })
+    function InDonHang(content) {
+        var printWindown = window.open('', '', 'height=400,width=800');
+            printWindown.document.write("<html><head><title>IN ĐƠN HÀNG</title></header>");
+            printWindown.document.write("<body>");
+            printWindown.document.write(content);
+            printWindown.document.write("</body></html>");
+            printWindown.document.close();
+            printWindown.print();
+
+    };
+
+
+</script>
+
+
+

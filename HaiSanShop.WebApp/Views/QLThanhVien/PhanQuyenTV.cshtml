@@ -1,0 +1,99 @@
+﻿@using HaiSanShop.Data.Entites
+@model LoaiThanhVien
+@{
+    ViewBag.Title = "PhanQuyenTV";
+    Layout = "~/Views/Shared/_Layout_Admin.cshtml";
+}
+
+
+
+<h2 class="text-primary">Phân Quyền Loại Thành Viên</h2>
+<h3>Loại Thành Viên :<span class="text-danger">@Model.TenLoai</span></h3>
+@{
+    IEnumerable<Quyen> lstquyen = ViewBag.dsquyen as IEnumerable<Quyen>;
+    IEnumerable<PhanQuyen> lstphanquyen = ViewBag.dsphanquyen as IEnumerable<PhanQuyen>;
+
+}
+<br />
+<br />
+<div class="clearfix"></div>
+<div class="container ml-4">
+    <div class="row ">
+        @using (Html.BeginForm())
+        {
+            @Html.Hidden("MaLoaiTV", Model.MaLoaiTV)
+
+
+            if (lstphanquyen != null)
+            {
+
+                //đối với loại thành viên đã phân quyền rồi
+                for (int j = 0; j < lstquyen.Count(); j++)
+                {
+                    int k = 0;//tạo biến k làm biến đếm để duyệt vòng lặp của bảng quyền nếu mà
+                              //loại tv nào cosmax quyền (LoaiTV_Quyền) ứng vs quyền(Quyền)
+                    for (int i = 0; i < lstphanquyen.Count(); i++)
+                    {
+                        if (lstquyen.ElementAt(j).MaQuyen == lstphanquyen.ElementAt(i).MaQuyen)
+                        {
+
+                            k++;
+                            break;
+                        }
+                    }
+
+                    if (k != 0)
+                    {
+
+                        <div class="row form-control-lg">
+                            <input class="ckb" checked="checked" type="checkbox" value="@lstquyen.ElementAt(j).MaQuyen" name="@Url.Content("[" + j + "].MaQuyen")" /><span>@lstquyen.ElementAt(j).TenQuyen</span>
+
+
+                        </div>
+
+                    }
+                    else
+                    {
+                        <div class="row form-control-lg">
+
+                            <input class="ckb" type="checkbox" value="@lstquyen.ElementAt(j).MaQuyen" name="@Url.Content("[" + j + "].MaQuyen")" /><span>@lstquyen.ElementAt(j).TenQuyen</span>
+                        </div>
+                    }
+                    k = 0;
+                }
+            }
+            else
+            {
+                //th chua phan quyen
+                for (int i = 0; i < lstquyen.Count(); i++)
+                {
+
+
+                    <input class="ckb" type="checkbox" value="@lstquyen.ElementAt(i).MaQuyen" name="@Url.Content("[" + i + "].MaQuyen")" /><span>@lstquyen.ElementAt(i).TenQuyen</span>
+
+                }
+            }
+            <br />
+            <div class="clearfix"></div>
+
+            <br />
+            <input class="btn btn-primary" type="submit" value="Cập Nhập" />
+            @Html.ActionLink("Quay Lai", "Quyen", "QLThanhVien", new { }, new { @class = "btn btn-info" })
+        }
+
+    </div>
+</div>
+<script>
+    $(".ckb").click(function () {
+        i = 0;
+        $(".ckb").each(function () {
+            if ($(this).is(':checked')) {
+                $(this).attr("name", "[" + i + "].MaQuyen");
+                i++;
+            }
+
+        })
+
+    })
+</script>
+

@@ -1,0 +1,124 @@
+﻿@using  HaiSanShop.Data.Entites
+@model SanPham
+@{
+    ViewBag.Title = "ThemMoi";
+    Layout = "~/Views/Shared/_Layout_Admin.cshtml";
+}
+
+<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
+<script src="~/ContentAdmin/tinymce/js/tinymce/tinymce.min.js"></script>
+
+<h3 style="color:red">@ViewBag.ThongBao</h3>
+@using (Html.BeginForm("ThemMoi", "QLSanPham", FormMethod.Post, new { @enctype = "multipart/form-data" }))
+{
+    @Html.AntiForgeryToken()
+
+<div class="form-horizontal" style="color:black">
+    <h4>Thêm Mới Sản Phẩm</h4>
+    <hr />
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+    <div class="form-group">
+        <label class="control-label col-md-2" col-md-2">Tên Sản Phẩm</label>
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.TenSP, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.TenSP, "", new { @class = "text-danger" })
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-md-2" col-md-2">Ngày Nhập</label>
+        <div class="col-md-10">
+            @Html.TextBox("NgayNhap", "", new { @id = "datepicker", @class = "form-control" })
+            @Html.ValidationMessageFor(model => model.NgayNhap, "", new { @class = "text-danger" })
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-md-2" col-md-2">Loại Sản Phẩm</label>
+        <div class="col-md-10">
+            @Html.DropDownList("MaLoaiSP", new SelectList(ViewBag.MaLoaiSP, "MaLoaiSP", "TenLoai", 0), "Chọn Loại Sản Phẩm", new { @class = "form-control" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="control-label col-md-2" col-md-2">Danh Mục Sản Phẩm</label>
+        <div class="col-md-10">
+            @Html.DropDownList("MaDM", new SelectList(ViewBag.MaDM, "MaDM", "TenDanhMuc", 0), "Chọn Danh Mục", new { @class = "form-control" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="control-label col-md-2" col-md-2">Đơn Giá</label>
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.DonGia, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.DonGia, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+
+
+    <div class="form-group">
+        <label class="control-label col-md-2" col-md-2">Hình Ảnh</label>
+        <div class="col-md-10">
+            <input type="file" name="HinhAnh" />
+            <span style="color:red">@ViewBag.ThongBaoUpload</span>
+        </div>
+
+    </div>
+
+    @*<div class="form-group">
+            @Html.LabelFor(model => model.CauHinh, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.TextAreaFor(model => model.CauHinh, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.CauHinh, "", new { @class = "text-danger" })
+            </div>
+        </div>*@
+    <div class="form-group">
+        <label class="control-label col-md-2" col-md-2">Số Lượng</label>
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.SoLuongTon, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.SoLuongTon, "", new { @class = "text-danger" })
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-md-2" col-md-2">Mô Tả</label>
+        <div class="col-md-10">
+            @Html.TextAreaFor(model => model.MoTa, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.MoTa, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+
+
+
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            <input type="submit" value="Create" class="btn btn-default" />
+        </div>
+    </div>
+</div>
+}
+
+<script>
+    $('#datepicker').datepicker({
+
+    });
+
+
+tinymce.init({
+  selector: 'textarea',
+  plugins: 'image media link tinydrive code imagetools',
+    height: 300,
+    width:700,
+  toolbar: 'insertfile image link | code | bold italic',
+  tinydrive_token_provider: 'URL_TO_YOUR_TOKEN_PROVIDER',
+  tinydrive_dropbox_app_key: 'YOUR_DROPBOX_APP_KEY',
+  tinydrive_google_drive_key: 'YOUR_GOOGLE_DRIVE_KEY',
+  tinydrive_google_drive_client_id: 'YOUR_GOOGLE_DRIVE_CLIENT_ID'
+});
+</script>
+
+
+

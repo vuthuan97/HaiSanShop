@@ -1,0 +1,106 @@
+﻿@using PagedList.Mvc
+@model PagedList.IPagedList<HaiSanShop.Data.Entites.Blog>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout_Admin.cshtml";
+}
+    <link href="~/Content/PagedList.css" rel="stylesheet" />
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "CreateBlog",new{}, new { @class ="btn btn-success"})
+</p>
+<table class="table table-responsive table-condensed">
+    <tr>
+        <th>
+            Mã Blog
+        </th>
+        <th>
+            Tiêu Đề
+        </th>
+        <th>
+            Ngày Viết
+        </th>
+        <th>
+            Đã Hiện
+        </th>
+
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr id="row_"@item.Ma>
+            <td>
+                @Html.DisplayFor(modelItem => item.Ma)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TieuDe)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.NgayTao)
+            </td>
+
+            <td>
+                @Html.DisplayFor(modelItem => item.Hien)
+            </td>
+
+            <td>
+                <a href="@Url.Action("SuaBlog","QLBlog",new {@MaBlog=item.Ma})" class="btn btn-primary"><i class="fa fa-edit"></i></a>
+               
+                <a href="#"  onclick="XoaBlog(@item.Ma)" class="btn btn-danger"><i class="fa fa-trash"></i></a>
+            </td>
+        </tr>
+    }
+
+</table>
+<input type="hidden" id="ma" />
+Trang @(Model.PageCount > Model.PageNumber ? 1:Model.PageNumber)/@Model.PageCount
+@Html.PagedListPager(Model, page=>Url.Action("Index","QLBlog",new {page=page}))
+<div class="modal" id="modal_delete">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4>Xác Nhận Xóa Blog</h4>
+                <a href="#" data-dismiss="modal">&times;</a>
+            </div>
+            <div class="modal-body">
+                <h3>Bạn có chắc muốn xóa Blog này không ?</h3>
+            </div>
+            <div class="modal-footer">
+                <input type="button" class="btn btn-danger" data-dismiss="modal" value="Hủy" />
+                <input type="button" class="btn btn-primary" onclick="DeleteBlog()" value="Đồng ý" />
+            </div>
+        </div>
+        
+    </div>
+    
+</div>
+<script>
+     var XoaBlog = function (Ma) {
+        $("#ma").val(Ma);
+        $("#modal_delete").modal();
+
+    }
+    var DeleteBlog = function () {
+        debugger
+        var ma = $("#ma").val();
+        $.ajax({
+            type: "POST",
+            url: "/QLBlog/XoaBlog",
+            data: { MaBlog: ma },
+            success: function (result) {
+                if (result == true) {
+                    $("#modal_delete").modal('hide');
+                    $("tr#row_"+ ma).remove();
+                }
+                else {
+                    alert("xóa Blog thất bại, vui lòng kiểm tra lại");
+                }
+               
+            }
+        })
+
+    }
+</script>

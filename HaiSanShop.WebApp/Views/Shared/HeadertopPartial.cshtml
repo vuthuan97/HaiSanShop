@@ -1,0 +1,175 @@
+﻿@using HaiSanShop.Data.Entites
+<div class="header-bot">
+    <div class="header-bot_inner_wthreeinfo_header_mid">
+        <!-- header-bot-->
+        <div class="col-md-4 logo_agile">
+            <h1>
+                <a href="@Url.Action("Index","Home")">
+                    <span>H</span>ải Sản
+                    <span>S</span>ầm Sơn
+                    <img src="~/Content/images/logo2.png" alt=" ">
+                </a>
+            </h1>
+        </div>
+        <!-- header-bot -->
+        <div class="col-md-8 header">
+            <!-- header lists -->
+            <ul>
+
+                <li style="width:300px">
+
+                </li>
+                <li>
+                    <span class="fa fa-phone" aria-hidden="true"></span>0862560197
+                </li>
+                @if (User.Identity.IsAuthenticated)
+                {
+                    if (Session["DangNhap"] != null && Session["DangNhap"] != "")
+                    {
+
+                        ThanhVien thanhVien = Session["DangNhap"] as ThanhVien;
+
+                        <li class="w-100"><a href="@Url.Action("ThongTin","KhachHang",new {@MaKH=thanhVien.MaTV})"><h4><i class="fa fa-user"></i>  @HttpContext.Current.User.Identity.Name</h4> </a></li>
+                        @Html.ActionLink("Đăng Xuất", "DangXuat", "Home")
+                    }
+                    else
+                    {
+                        <li class="w-100"><a href="#"><h4><i class="fa fa-user"></i>  @HttpContext.Current.User.Identity.Name</h4> </a></li>
+                        @Html.ActionLink("Đăng Xuất", "DangXuat", "Home")
+                    }
+
+
+                }
+                else
+                {
+                    <li>
+                        <a href="#" data-toggle="modal" data-target="#myModal1">
+                            <span class="fa fa-unlock-alt" aria-hidden="true"></span>Đăng Nhập
+                        </a>
+                    </li>
+                    <li>
+                        <a href="@Url.Action("DangKy","Home")">
+                            <span class="fa fa-pencil-square-o" aria-hidden="true"></span>Đăng Ký
+                        </a>
+                    </li>
+                }
+
+
+            </ul>
+            <!-- //header lists -->
+            <!--Tìm Kiếm -->
+            <div class="agileits_search">
+                @using (Html.BeginForm("Search", "SanPham", FormMethod.Get))
+                {
+                    <input name="keyword" type="search" placeholder="Tôi Có Thể Giúp Gì Cho Bạn ?" required="">
+                    <button type="submit" class="btn btn-default" aria-label="Left Align">
+                        <span class="fa fa-search" aria-hidden="true"> </span>
+                    </button>
+                }
+
+
+            </div>
+            <!-- //search -->
+            <!-- Img Gior Hàng -->
+            <div class="top_nav_right">
+                <div class="wthreecartaits wthreecartaits2 cart cart box_1">
+
+                    <button class="w3view-cart" onclick="btncart()" type="submit" name="submit" value="">
+                        <i class="fa fa-cart-arrow-down" aria-hidden="true"></i>
+                    </button>
+                </div>
+            </div>
+            <script>
+                    var btncart = function () {
+                        window.location.href = "/GioHang/XemGioHang";
+                    }
+            </script>
+
+
+
+            <!-- //cart details -->
+            <div class="clearfix"></div>
+        </div>
+        <div class="clearfix"></div>
+    </div>
+</div>
+
+<!--Đăng Nhập -->
+<!-- Modal1 -->
+<div class="modal fade" id="myModal1" tabindex="-1" role="dialog">
+    <div class="modal-dialog">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <div class="modal-body modal-body-sub_agile">
+                <div class="main-mailposi">
+                    <span class="fa fa-envelope-o" aria-hidden="true"></span>
+                </div>
+                <div class="modal_body_left modal_body_left1">
+                    <h3 class="agileinfo_sign">Đăng Nhập </h3>
+                    <p>
+                        Đăng Ký Thành Viên Ngay Bây Giờ Để Có Thể Nhận Được Nhưng Ưu Đãi Khi Mua Hàng
+                        <a href="#" data-toggle="modal" data-target="#myModal2">
+                            Đăng Ký Ngay
+                        </a>
+                    </p>
+                    @using (Ajax.BeginForm(new AjaxOptions { InsertionMode = InsertionMode.Replace, UpdateTargetId = "thongbao" }))
+
+                    {
+                        <div class="styled-input agile-styled-input-top">
+                            <input type="text" placeholder="Tài Khoản" name="TaiKhoan" required="">
+                        </div>
+                        <div class="styled-input">
+                            <input type="password" placeholder="Mật Khẩu" name="MatKhau" required="">
+                        </div>
+                        <h3 style="color:green" id="thongbao"></h3>
+                        <input type="submit" class="btnlogin" value="Đăng Nhập">
+                    }
+
+                    <div class="clearfix"></div>
+                </div>
+                <div class="clearfix"></div>
+            </div>
+        </div>
+        <!-- //Modal content-->
+    </div>
+</div>
+
+
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        
+        
+        $(".btnlogin").click(function () {
+            debugger
+            
+
+            //Lấy toàn bộ dữ liệu trong Form
+            var Data= $('form#form0').serialize();
+
+            //Sử dụng phương thức Ajax.
+            $.ajax({
+               
+                type: "POST", //Sử dụng kiểu gửi dữ liệu POST
+                url: "/Home/DangNhap", //gửi dữ liệu sang trang data.php
+                data: Data, //dữ liệu sẽ được gửi
+                success: function (result)  // Hàm thực thi khi nhận dữ liệu được từ server
+                {
+                    debugger
+                    if (result == 'false') {
+                         $('#thongbao').html("Đăng Nhập Thất Bại! Vui Lòng kiểm Tra Lại Thông Tin");
+                    } else {
+
+                        window.location.reload();
+                    }
+                }
+            });
+            return false;
+        });
+    });
+</script>
+
+

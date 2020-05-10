@@ -1,0 +1,45 @@
+﻿@using HaiSanShop.Data.Entites
+@model SanPham
+    @{
+        ViewBag.Title = "NhapHangDon";
+        Layout = "~/Views/Shared/_Layout_Admin.cshtml";
+    }
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
+    <h2>Nhập Hàng Đơn</h2>
+    @using (Html.BeginForm())
+    {
+        <div class="col-md-10">
+            <label class="col-md-2">Thương Hiệu</label>
+            @Html.Hidden("MaDM", Model.MaDM)
+            @Html.TextBoxFor(model => model.DanhMucSanPhams.TenDanhMuc, new { @class = "form-control col-md-5", @readonly = "readonly" })
+        </div>
+        <div class="col-md-10">
+            <label class="col-md-2">Ngày Nhập</label>
+            @Html.TextBox("NgayNhap", "", new { @class = "form-control col-md-5" })
+        </div>
+        <table class="table table-condensed">
+            <tr class="trfirtchild" data-id="-1">
+                <th>Sản Phẩm</th>
+                <th>Số Lượng Nhập</th>
+                <th>Đơn Giá Nhập</th>
+            </tr>
+            <tr>
+                @Html.Hidden("MaSP", Model.MaSP)
+                <td>@Html.TextBoxFor(model => model.TenSP, new { @class = "form-control", @readonly = "readonly" })</td>
+                <td>@Html.TextBox("SoLuongNhap", "0", new { @class = "form-control col-md-5" })</td>
+                <td>@Html.TextBox("DonGiaNhap", "0", new { @class = "form-control col-md-5" })</td>
+
+            </tr>
+        </table>
+        <input class="btn btn-success" type="submit" value="Nhập Hàng" />
+        <a class="btn  btn-info"
+           href="@Url.Action("HangHet","QLSanPham")">Quay Lại</a>
+    }
+
+    <script>
+        $("#NgayNhap").datepicker();
+    </script>
+
